@@ -288,7 +288,6 @@ class GDC_2_0_0_Aliquot(BaseRunner):
                 return str(self["Chromosome"].value)
 
         MafRecord.chromosome = MonkeyMafRecord.chromosome
-        print(MafRecord.chromosome)
 
         try:
             # Validate samples
