@@ -6,6 +6,8 @@ import datetime
 import sys
 from signal import SIG_DFL, SIGPIPE, signal
 
+from maflib.record import MafRecord
+
 from aliquotmaf.logger import Logger
 from aliquotmaf.subcommands.mask_merged_aliquot.__main__ import MaskMergedAliquotMaf
 from aliquotmaf.subcommands.merge_aliquot.__main__ import MergeAliquotMafs
@@ -48,6 +50,16 @@ def main(args=None):
     options = p.parse_args(args)
 
     # Run
+
+    # Patch some terrible typing issues on the MafRecord chromosome property used by subcommands
+    class MonkeyMafRecord(MafRecord):
+        @property  # type: ignore
+        def chromosome(self):  # type: ignore
+            """Returns the chromosome name"""
+            return str(self["Chromosome"].value)
+
+    MafRecord.chromosome = MonkeyMafRecord.chromosome
+
     cls = options.func(options)
     cls.do_work()
 

@@ -3,7 +3,6 @@ import urllib.parse
 
 import pysam
 from maflib.header import MafHeader, MafHeaderRecord
-from maflib.record import MafRecord
 from maflib.sort_order import BarcodesAndCoordinate
 from maflib.sorter import MafSorter
 from maflib.validation import ValidationStringency
@@ -279,15 +278,6 @@ class GDC_2_0_0_Aliquot(BaseRunner):
         tumor_sample_id = self.options["tumor_vcf_id"]
         normal_sample_id = self.options["normal_vcf_id"]
         is_tumor_only = self.options["tumor_only"]
-
-        # Patch some terrible typing issues on the MafRecord chromosome
-        class MonkeyMafRecord(MafRecord):
-            @property  # type: ignore
-            def chromosome(self):  # type: ignore
-                """Returns the chromosome name"""
-                return str(self["Chromosome"].value)
-
-        MafRecord.chromosome = MonkeyMafRecord.chromosome
 
         try:
             # Validate samples
