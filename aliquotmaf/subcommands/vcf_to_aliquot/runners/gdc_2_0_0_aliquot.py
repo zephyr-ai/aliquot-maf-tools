@@ -1,12 +1,10 @@
 """Main vcf2maf logic for spec gdc-2.0.0-aliquot"""
 import urllib.parse
-from typing import List
 
 import pysam
 from maflib.header import MafHeader, MafHeaderRecord
-from maflib.locatable import Locatable
 from maflib.record import MafRecord
-from maflib.sort_order import BarcodesAndCoordinate, _CoordinateKey
+from maflib.sort_order import BarcodesAndCoordinate
 from maflib.sorter import MafSorter
 from maflib.validation import ValidationStringency
 from maflib.writer import MafWriter
